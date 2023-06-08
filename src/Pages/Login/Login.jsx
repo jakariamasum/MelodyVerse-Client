@@ -59,7 +59,7 @@ const Login = () => {
         </div>
         <div className="flex items-center justify-between mb-4">
             <input type="submit" value="Login" className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded-md "/>
-          <Link to="/registration" className="text-blue-500 hover:underline text-sm">Register</Link>
+          <Link to="/register" className="text-blue-500 hover:underline text-sm">Register</Link>
         </div>
       </form>
         <p className="text-center text-gray-500">Or login with:</p>
