@@ -3,6 +3,7 @@ import {
   } from "react-router-dom";
 import Main from "../LayOut/Main";
 import { Home } from "@mui/icons-material";
+import Login from "../Pages/Login/Login";
 
   export const router = createBrowserRouter([
     {
@@ -12,6 +13,10 @@ import { Home } from "@mui/icons-material";
         {
             path: '/', 
             element: <Home/>
+        },
+        {
+          path: '/login',
+          element: <Login/>
         }
       ]
     },
