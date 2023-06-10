@@ -8,6 +8,7 @@ import Home from "../LayOut/Home/Home/Home";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import InstructorsPage from "../Pages/InstructorsPage/InstructorsPage";
 import ClassPage from "../Pages/ClassPage/ClassPage";
+import Dashboard from "../Pages/Dashboard.jsx/Dashboard";
 
   export const router = createBrowserRouter([
     {
@@ -37,4 +38,8 @@ import ClassPage from "../Pages/ClassPage/ClassPage";
         }
       ]
     },
+    {
+      path: '/student-dashboard',
+      element: <Dashboard/>
+    }
   ]);

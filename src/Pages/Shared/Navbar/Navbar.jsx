@@ -1,9 +1,17 @@
 
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Provider/AuthProvider';
 const Navbar = () => {
+  const { user,logOut } = useContext(AuthContext)
   // Check user
-  const loggedIn = false;
-  const userRole='admin';
+  const loggedIn = true;
+  const userRole = 'student';
+  const handleLogOut=()=>{
+    logOut()
+    .then(res=>({}))
+    .catch(error=>({}))
+  }
   return (
     <nav className="bg-gray-100 shadow-lg ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,10 +30,9 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
-              {loggedIn ? (
+              {user ? (
                 <>
                   {/* TODO: add user image */}
-                  <img src={''} alt="User Profile" className="h-8 w-8 rounded-full" />
                   {userRole === 'admin' && (
                     <Link to="/admin-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Admin Dashboard</Link>
                   )}
@@ -35,6 +42,8 @@ const Navbar = () => {
                   {userRole === 'instructor' && (
                     <Link to="/instructor-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Instructor Dashboard</Link>
                   )}
+                  <img src={''} alt="User Profile" className="h-8 w-8 rounded-full" />
+                  <Link to="/" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium" onClick={handleLogOut}>LogOut</Link>
                 </>
               ) : (
                 <Link to="/login" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Login</Link>

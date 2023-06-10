@@ -2,13 +2,20 @@ import { Link } from 'react-router-dom';
 import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import { FaGoogle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const Login = () => {
+  const {signIn}=useContext(AuthContext)
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
+    signIn(data.email,data.password)
+    .then(result=>{
+      console.log(result.user);
+    }) 
+    .catch(error=>console.log(error))
     // Perform login logic here
   };
 

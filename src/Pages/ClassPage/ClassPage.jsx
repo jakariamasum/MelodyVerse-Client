@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const ClassesPage = () => {
+  const {user}=useContext(AuthContext)
 
     const [classes,setClasses]=useState([]); 
 
@@ -9,6 +12,33 @@ const ClassesPage = () => {
         .then(res=>res.json())
         .then(data=>setClasses(data))
     },[])
+
+    const handleselect=(item)=>{
+      console.log(item)
+      item.email=user?.email;
+      item.selectId=item._id;
+      delete item._id;
+      fetch('http://localhost:5000/selected',{
+        method: 'POST', 
+        headers: {
+          'content-type': "application/json"
+        },
+        body: JSON.stringify(item)
+      })
+      .then(res=>res.json())
+      .then(data=>{
+        if(data.insertedId)
+                {
+                  Swal.fire({
+                    position: 'text-center',
+                    icon: 'success',
+                    title: 'Selected',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                }
+      })
+    }
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mt-8 lg: mx-32 ">
@@ -28,7 +58,7 @@ const ClassesPage = () => {
           <p className="text-gray-600 mb-2">Instructor: {classItem.instructor}</p>
           <p className="text-gray-600 mb-2">Available Seats: {classItem.availableSeats}</p>
           <p className="text-gray-600 mb-4">Price: {classItem.price}</p>
-          <button
+          <button onClick={()=>handleselect(classItem)}
             disabled={classItem.availableSeats === 0}
             className={`w-full py-2 px-4 rounded ${
               classItem.availableSeats === 0 ? 'bg-red-300 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
