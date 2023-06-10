@@ -1,18 +1,67 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
+import { updateProfile } from 'firebase/auth';
 
 const Register = () => {
+  // const {createUser,logOut}=useContext(AuthContext)
+  const {createUser, logOut } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
+  const navigate=useNavigate();
 
   const onSubmit = (data) => {
+    data.role='student';
     console.log(data);
+
+    createUser(data.email, data.password)
+            .then(res => {
+              fetch('http://localhost:5000/students',{
+                method: 'POST', 
+                headers: {
+                  'content-type':'application/json'
+                }, 
+                body: JSON.stringify(data)
+              })
+              .then(res=>res.json())
+              .then(data=>{
+                if(data.insertedId)
+                {
+                  logOut();
+                  Swal.fire({
+                    position: 'text-center',
+                    icon: 'success',
+                    title: 'Registration Successful! Please login',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                }
+              })
+                console.log(res.user)
+                // updateProfile(auth.currentUser, {
+                //     displayName: data.name, photoURL: data.photoURL
+                // }).then(() => {
+                //     logOut()
+                //         .then(res => {
+                //             form.reset();
+                //         })
+                //         .catch(error => console.log(error.message))
+                //         setErr('')
+                //     navigate('/login')
+                // }).catch((error) => {
+                //     console.log(error.message)
+                // });
+
+            })
+            .catch(error => console.log(error.message))
+    
     // Perform registration logic here
   };
 
@@ -37,9 +86,8 @@ const Register = () => {
             type="text"
             id="name"
             {...register('name', { required: 'Name is required' })}
-            className={`border-black focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${
-              errors.name ? 'border-red-500' : 'border-gray-300'
-            }`}
+            className={`border-black focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.name ? 'border-red-500' : 'border-gray-300'
+              }`}
           />
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -59,9 +107,8 @@ const Register = () => {
                 message: 'Invalid email',
               },
             })}
-            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${
-              errors.email ? 'border-red-500' : 'border-gray-300'
-            }`}
+            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'
+              }`}
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -87,9 +134,8 @@ const Register = () => {
                     'Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character',
                 },
               })}
-              className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${
-                errors.password ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.password ? 'border-red-500' : 'border-gray-300'
+                }`}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
               {passwordVisible ? (
@@ -120,9 +166,8 @@ const Register = () => {
               required: 'Please confirm your password',
               validate: (value) => value === password.current || 'Passwords do not match',
             })}
-            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${
-              errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-            }`}
+            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+              }`}
           />
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
