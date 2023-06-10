@@ -1,8 +1,9 @@
 
 import { Link } from 'react-router-dom';
 const Navbar = () => {
-    // Check user
-    const loggedIn=false;
+  // Check user
+  const loggedIn = false;
+  const userRole='admin';
   return (
     <nav className="bg-gray-100 shadow-lg ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,14 +24,23 @@ const Navbar = () => {
             <div className="ml-4 flex items-center md:ml-6">
               {loggedIn ? (
                 <>
-                {/* TODO: add user image */}
+                  {/* TODO: add user image */}
                   <img src={''} alt="User Profile" className="h-8 w-8 rounded-full" />
-                  <Link to="/dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+                  {userRole === 'admin' && (
+                    <Link to="/admin-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Admin Dashboard</Link>
+                  )}
+                  {userRole === 'student' && (
+                    <Link to="/student-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Student Dashboard</Link>
+                  )}
+                  {userRole === 'instructor' && (
+                    <Link to="/instructor-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Instructor Dashboard</Link>
+                  )}
                 </>
               ) : (
                 <Link to="/login" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Login</Link>
               )}
             </div>
+
           </div>
         </div>
       </div>
