@@ -38,7 +38,7 @@ const Navbar = () => {
                     <Link to="/admin-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Admin Dashboard</Link>
                   )}
                   {userRole === 'student' && (
-                    <Link to="/student-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Student Dashboard</Link>
+                    <Link to="/student-dashboard/selected" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Student Dashboard</Link>
                   )}
                   {userRole === 'instructor' && (
                     <Link to="/instructor-dashboard" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Instructor Dashboard</Link>

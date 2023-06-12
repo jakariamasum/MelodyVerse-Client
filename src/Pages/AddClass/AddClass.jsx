@@ -9,6 +9,8 @@ const AddClass = () => {
 
   const onSubmit = (data) => {
     data.status='pending';
+    data.email=user.email; 
+    data.name=user.displayName;
     console.log(data)
 
     fetch('http://localhost:5000/add-class',{
@@ -32,7 +34,7 @@ const AddClass = () => {
                 }
     })
 
-    // reset();
+     reset();
   };
 
   // Get the logged in user/instructor details

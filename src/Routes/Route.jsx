@@ -13,6 +13,9 @@ import SelectedClass from "../Pages/Dashboard.jsx/SelectedClass/SelectedClass";
 import Payment from "../Payment/payment";
 import AddClass from "../Pages/AddClass/AddClass";
 import ClassesPage from "../Pages/ClassPage/ClassPage";
+import AddedClasses from "../Pages/AddesClasses/AddedClasses";
+import ManageClass from "../Pages/Admin/ManageClass/ManageClass";
+import ManageUsers from "../Pages/Admin/ManageUsers/ManageUsers";
 
   export const router = createBrowserRouter([
     {
@@ -66,7 +69,21 @@ import ClassesPage from "../Pages/ClassPage/ClassPage";
         },
         {
           path: '/instructor-dashboard/classes',
-          element: ''
+          element: <AddedClasses/>
+        }
+      ]
+    },
+    {
+      path: '/admin-dashboard', 
+      element: <Dashboard/>,
+      children: [
+        {
+          path: '/admin-dashboard/classes', 
+          element: <ManageClass/>
+        },
+        {
+          path: '/admin-dashboard/allusers',
+          element: <ManageUsers/>
         }
       ]
     }
