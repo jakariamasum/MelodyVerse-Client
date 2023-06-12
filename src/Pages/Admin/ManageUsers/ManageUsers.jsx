@@ -3,6 +3,7 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 import { TiUserAdd } from 'react-icons/ti';
 import { FaUserCheck } from 'react-icons/fa';
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
   const { user } = useContext(AuthContext);
@@ -28,6 +29,15 @@ const ManageUsers = () => {
       .then((res) => res.json())
       .then((updatedUser) => {
         // Update the user in the classes state
+        Swal.fire({
+            title: 'User role updated into admin',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            }
+          })
         setClasses((prevClasses) =>
         prevClasses.map((classItem) =>
           classItem._id === id ? { ...classItem, role: "admin" } : classItem
@@ -43,7 +53,37 @@ const ManageUsers = () => {
     // TODO: Make the API call to update the user's role to instructor
     // You can use the user ID (id) to identify the user
 
-    
+    fetch(`http://localhost:5000/students/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role: "instructor",
+      }),
+    })
+      .then((res) => res.json())
+      .then((updatedUser) => {
+        // Update the user in the classes state
+        Swal.fire({
+            title: 'User role updated into instructor',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            }
+          })
+        setClasses((prevClasses) =>
+        prevClasses.map((classItem) =>
+          classItem._id === id ? { ...classItem, role: "instructor" } : classItem
+        )
+      );
+      })
+      .catch((error) => {
+        console.log("Error updating user:", error);
+      });
+
 
     console.log(`Make instructor clicked for user with ID: ${id}`);
   };
