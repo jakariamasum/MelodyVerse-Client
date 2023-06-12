@@ -5,11 +5,12 @@ import { AuthContext } from '../../../Provider/AuthProvider';
 const Navbar = () => {
   const { user,logOut } = useContext(AuthContext)
   // Check user
-  const loggedIn = true;
-  const userRole = 'student';
+  const userRole = localStorage.getItem('token')
   const handleLogOut=()=>{
     logOut()
-    .then(res=>({}))
+    .then(res=>{
+      // localStorage.clear();
+    })
     .catch(error=>({}))
   }
   return (

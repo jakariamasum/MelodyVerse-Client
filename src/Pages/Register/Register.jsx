@@ -1,10 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
-import { updateProfile } from 'firebase/auth';
 
 const Register = () => {
   // const {createUser,logOut}=useContext(AuthContext)
@@ -15,10 +14,9 @@ const Register = () => {
     formState: { errors },
     watch,
   } = useForm();
-  const navigate=useNavigate();
 
   const onSubmit = (data) => {
-    data.role='student';
+    data.role='student';  
     console.log(data);
 
     createUser(data.email, data.password)

@@ -9,6 +9,10 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import InstructorsPage from "../Pages/InstructorsPage/InstructorsPage";
 import ClassPage from "../Pages/ClassPage/ClassPage";
 import Dashboard from "../Pages/Dashboard.jsx/Dashboard";
+import SelectedClass from "../Pages/Dashboard.jsx/SelectedClass/SelectedClass";
+import Payment from "../Payment/payment";
+import AddClass from "../Pages/AddClass/AddClass";
+import ClassesPage from "../Pages/ClassPage/ClassPage";
 
   export const router = createBrowserRouter([
     {
@@ -40,6 +44,31 @@ import Dashboard from "../Pages/Dashboard.jsx/Dashboard";
     },
     {
       path: '/student-dashboard',
-      element: <Dashboard/>
+      element: <Dashboard/>,
+      children:[
+        {
+          path: '/student-dashboard/selected',
+          element: <SelectedClass/>
+        },
+        {
+          path: '/student-dashboard/:payment',
+          element: <Payment/>
+        }
+      ]
+    },
+    {
+      path: '/instructor-dashboard',
+      element: <Dashboard/>,
+      children:[
+        {
+          path: '/instructor-dashboard/add-class',
+          element: <AddClass/>
+        },
+        {
+          path: '/instructor-dashboard/classes',
+          element: ''
+        }
+      ]
     }
+    
   ]);

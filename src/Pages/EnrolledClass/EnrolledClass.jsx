@@ -1,25 +1,17 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../Provider/AuthProvider";
-import {AiFillDelete} from 'react-icons/ai'
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const SelectedClass = () => {
-  const { user } = useContext(AuthContext);
-  const [classes, setClasses] = useState([]);
+const EnrolledClass = () => { 
+    const [classes,setClasses]=useState([]); 
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/selected?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => setClasses(data));
-  }, [user?.email]);
-  
+    useEffect(()=>{
+        fetch('')
+        .then(res=>res.json())
+        .then(data=>setClasses(data))
+    } ,[])
 
-  return (
-    <div>
-        <h1 className="text-2xl font-bold mb-4">
-            Total Selected: {classes.length}
-        </h1>
-      <table className="table text-center">
+    return (
+        <div>
+            <table className="table text-center">
         <thead>
           <tr>
             <th>Serial Number</th>
@@ -44,16 +36,14 @@ const SelectedClass = () => {
               <td>{classItem.availableSeats}</td>
               <td className="flex items-center">
                 <button className="btn btn-warning mr-2 border-none text-white bg-red-400 hover:bg-purple-500"><AiFillDelete size={20}/> Delete</button>
-                <Link to={`/student-dashboard/${classItem._id}`}>
-                    <button className="btn btn-warning btn-sm">PAY</button>
-                </Link>
+                <button className="btn btn-success">Pay</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
-  );
+        </div>
+    );
 };
 
-export default SelectedClass;
+export default EnrolledClass;

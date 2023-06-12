@@ -13,7 +13,12 @@ const Login = () => {
     console.log(data);
     signIn(data.email,data.password)
     .then(result=>{
-      console.log(result.user);
+      fetch(`http://localhost:5000/students?email=${data.email}`)
+      .then(res=>res.json())
+      .then(data=>{
+        localStorage.setItem('token',data.role)
+      })
+      console.log(result);
     }) 
     .catch(error=>console.log(error))
     // Perform login logic here
