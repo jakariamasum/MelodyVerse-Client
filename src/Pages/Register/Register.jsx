@@ -16,7 +16,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    data.role='student';  
+    data.role='student'; 
     console.log(data);
 
     createUser(data.email, data.password)

@@ -16,21 +16,65 @@ const ManageClass = () => {
             .then((data) => setClasses(data));
     }, [user?.email]);
 
-    const handleApprove = (id) => {
-        fetch(`http://localhost:5000/students/${id}`, {
+    const handleApprove = (item) => {
+        fetch(`http://localhost:5000/add-class/${item._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                role: "admin",
+                status: "approved",
+            }),
+        })
+            .then((res) => res.json())
+            .then((updatedUser) => {
+                fetch('http://localhost:5000/classes', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(item)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.insertedId) {
+                            Swal.fire({
+                                title: 'Class has been approved',
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                            setClasses((prevClasses) =>
+                                prevClasses.map((classItem) =>
+                                    classItem._id === item._id ? { ...classItem, status: "approved" } : classItem
+                                )
+                            );
+                        }
+                    })
+                // Update the user in the classes state
+            })
+            .catch((error) => {
+                console.log("Error updating user:", error);
+            });
+    }
+    const handleDeny = (id) => {
+        fetch(`http://localhost:5000/add-class/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                status: "deny",
             }),
         })
             .then((res) => res.json())
             .then((updatedUser) => {
                 // Update the user in the classes state
                 Swal.fire({
-                    title: 'Class has been approved',
+                    title: 'Class has been denied',
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown'
                     },
@@ -40,7 +84,7 @@ const ManageClass = () => {
                 })
                 setClasses((prevClasses) =>
                     prevClasses.map((classItem) =>
-                        classItem._id === id ? { ...classItem, status: "approved" } : classItem
+                        classItem._id === id ? { ...classItem, status: "deny" } : classItem
                     )
                 );
             })
@@ -82,10 +126,10 @@ const ManageClass = () => {
                             <td>{classItem.availableSeats}</td>
                             <td className="text-yellow-400">{classItem.status}</td>
                             <td className="flex items-center gap-1">
-                                <button onClick={() => handleApprove(classItem._id)}
-                                    disabled={classItem.status === "approved"}
+                                <button onClick={() => handleApprove(classItem)}
+                                    disabled={classItem.status === "approved" || classItem.status === "deny"}
                                     className="btn btn-warning mr-2 font-semibold border-none text-white bg-green-400 hover:bg-purple-500"><BsCheckCircle size={20} /> Approve</button>
-                                <button className="btn btn-warning mr-2 font-semibold border-none text-white bg-red-400 hover:bg-purple-500"><RxCross2 size={20} /> Deny</button>
+                                <button onClick={() => handleDeny(classItem._id)} disabled={classItem.status === "approved" || classItem.status === "deny"} className="btn btn-warning mr-2 font-semibold border-none text-white bg-red-400 hover:bg-purple-500"><RxCross2 size={20} /> Deny</button>
                                 <button className="btn btn-warning mr-2 font-semibold border-none text-white bg-orange-400 hover:bg-purple-500"><FaCommentAlt size={20} /> FeedBack</button>
                             </td>
                         </tr>
