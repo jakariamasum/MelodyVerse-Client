@@ -12,9 +12,9 @@ const Footer = () => {
           </div>
           <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 mb-6">
             <h3 className="text-white text-lg font-semibold mb-4">Contact Us</h3>
-            <p className="text-gray-400">123 Street, City</p>
-            <p className="text-gray-400">Phone: 123-456-7890</p>
-            <p className="text-gray-400">Email: info@example.com</p>
+            <p className="text-gray-400">Sathmatha, Bogura</p>
+            <p className="text-gray-400">Phone: 01878127340</p>
+            <p className="text-gray-400">Email: melodyverse@gmail.com</p>
           </div>
           <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 mb-6">
             <h3 className="text-white text-lg font-semibold mb-4">Links</h3>
