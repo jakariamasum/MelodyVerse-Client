@@ -14,13 +14,13 @@ const ManageClass = () => {
     const [feedbackContent, setFeedbackContent] = useState('');
 
     useEffect(() => {
-        fetch(`http://localhost:5000/add-class`)
+        fetch(`https://music-school-server-pearl.vercel.app/add-class`)
             .then((res) => res.json())
             .then((data) => setClasses(data));
     }, [user?.email]);
 
     const handleApprove = (item) => {
-        fetch(`http://localhost:5000/add-class/${item._id}`, {
+        fetch(`https://music-school-server-pearl.vercel.app/add-class/${item._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const ManageClass = () => {
         })
             .then((res) => res.json())
             .then((updatedUser) => {
-                fetch('http://localhost:5000/classes', {
+                fetch('https://music-school-server-pearl.vercel.app/classes', {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'
@@ -63,7 +63,7 @@ const ManageClass = () => {
             });
     }
     const handleDeny = (id) => {
-        fetch(`http://localhost:5000/add-class/${id}`, {
+        fetch(`https://music-school-server-pearl.vercel.app/add-class/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const ManageClass = () => {
 
     const sendFeedback = () => {
         console.log(feedbackContent)
-        fetch(`http://localhost:5000/add-class/${classId}`, {
+        fetch(`https://music-school-server-pearl.vercel.app/add-class/${classId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -130,9 +130,9 @@ const ManageClass = () => {
 
 
     return (
-        <div>
+        <div className="my-12">
             <h1 className="text-2xl font-bold mb-4">
-                Total Selected: {classes.length}
+                Total Class: {classes.length}
             </h1>
             <table className="table text-center">
                 <thead>
@@ -153,10 +153,10 @@ const ManageClass = () => {
                         <tr key={classItem.id}>
                             <td>{index + 1}</td>
                             <td>
-                                <img src={classItem.image} alt={classItem.name} className="mask mask-squircle w-12 h-12" />
+                                <img src={classItem.classImage} alt={classItem.className} className="mask mask-squircle w-12 h-12" />
                             </td>
+                            <td>{classItem.className}</td>
                             <td>{classItem.name}</td>
-                            <td>{classItem.instructor}</td>
                             <td>{classItem.email}</td>
                             <td>${classItem.price}</td>
                             <td>{classItem.availableSeats}</td>

@@ -10,14 +10,15 @@ const ManageUsers = () => {
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/students`)
+    fetch(`https://music-school-server-pearl.vercel.app/students`)
       .then((res) => res.json())
       .then((data) => setClasses(data));
   }, [user?.email]);
+  
+
 
   const handleMakeAdmin = (id) => {
-    // Make the API call to update the user's role to admin
-    fetch(`http://localhost:5000/students/${id}`, {
+    fetch(`https://music-school-server-pearl.vercel.app/students/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +29,6 @@ const ManageUsers = () => {
     })
       .then((res) => res.json())
       .then((updatedUser) => {
-        // Update the user in the classes state
         Swal.fire({
             title: 'User role updated into admin',
             showClass: {
@@ -50,10 +50,8 @@ const ManageUsers = () => {
   };
 
   const handleMakeInstructor = (id) => {
-    // TODO: Make the API call to update the user's role to instructor
-    // You can use the user ID (id) to identify the user
 
-    fetch(`http://localhost:5000/students/${id}`, {
+    fetch(`https://music-school-server-pearl.vercel.app/students/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -89,9 +87,9 @@ const ManageUsers = () => {
   };
 
   return (
-    <div>
+    <div className="my-12">
       <h1 className="text-2xl font-bold mb-4">
-        Total Selected: {classes.length}
+        Total Users: {classes.length}
       </h1>
       <table className="table text-center">
         <thead>
@@ -99,20 +97,23 @@ const ManageUsers = () => {
             <th>Serial Number</th>
             <th>Image</th>
             <th>Name</th>
-            <th>Instructor Name</th>
+            <th>Instructor Email</th>
             <th>Role</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
+
+
+
           {classes.map((classItem, index) => (
             <tr key={classItem.id}>
               <td>{index + 1}</td>
               <td>
-                <img src={classItem.image} alt={classItem.name} className="mask mask-squircle w-12 h-12" />
+                <img src={classItem.photoURL} alt={classItem.name} className="mask mask-squircle w-12 h-12" />
               </td>
               <td>{classItem.name}</td>
-              <td>{classItem.instructor}</td>
+              <td><p>{classItem.email}</p></td>
               <td>{classItem.role}</td>
               <td className="flex items-center">
                 <button
@@ -132,6 +133,7 @@ const ManageUsers = () => {
               </td>
             </tr>
           ))}
+
         </tbody>
       </table>
     </div>

@@ -4,9 +4,9 @@ const PopularClass = () => {
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/classes?sort=asc')
+    fetch('https://music-school-server-pearl.vercel.app/classes?sort=asc')
       .then(res => res.json())
-      .then(data => setClasses(data));
+      .then(data => setClasses(data.slice(0, 6)));
   }, []);
 
   return (

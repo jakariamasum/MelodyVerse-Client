@@ -19,7 +19,7 @@ const Login = () => {
     console.log(data);
     signIn(data.email,data.password)
     .then(result=>{
-      fetch(`http://localhost:5000/students?email=${data.email}`)
+      fetch(`https://music-school-server-pearl.vercel.app/students?email=${data.email}`)
       .then(res=>res.json())
       .then(data=>{
         localStorage.setItem('token',data.role)
@@ -56,7 +56,7 @@ const Login = () => {
       }
       localStorage.setItem('token','student');
       res.user.role='student';
-      fetch('http://localhost:5000/students',{
+      fetch('https://music-school-server-pearl.vercel.app/students',{
                 method: 'POST', 
                 headers: {
                   'content-type':'application/json'
@@ -77,7 +77,7 @@ const Login = () => {
                     timer: 1500
                 });
                 }
-                fetch(`http://localhost:5000/students?email=${res.user.email}`)
+                fetch(`https://music-school-server-pearl.vercel.app/students?email=${res.user.email}`)
                 .then(res=>res.json())
                 .then(data=>localStorage.setItem('token',data.role))
               })
@@ -135,7 +135,7 @@ const Login = () => {
         </div>
       </form>
         <p className="text-center text-gray-500">Or login with:</p>
-        <div className='text-center'>
+        <div className='text-center mb-12'>
 
           <button onClick={handleGoogleLogin}
             type="button"

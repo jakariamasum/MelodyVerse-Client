@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const InstructorsPage = () => {
   const [instructors,setInstructors]=useState([]); 
   useEffect(()=>{
-    fetch('http://localhost:5000/students?instructor=instructor')
+    fetch('https://music-school-server-pearl.vercel.app/students?instructor=instructor')
     .then(res=>res.json())
     .then(data=>setInstructors(data))
   },[])
@@ -18,7 +18,7 @@ const InstructorsPage = () => {
           className="p-4 bg-white rounded shadow-md"
         >
           <img
-            src={instructor.image}
+            src={instructor.photoURL}
             alt={instructor.name}
             className="w-40 h-40 object-cover rounded-full mx-auto mb-4"
           />

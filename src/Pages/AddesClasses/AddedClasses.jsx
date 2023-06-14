@@ -7,7 +7,7 @@ const AddedClasses = () => {
     const [classes, setClasses] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/add-class?email=${user.email}`)
+        fetch(`https://music-school-server-pearl.vercel.app/add-class?email=${user.email}`)
             .then((res) => res.json())
             .then((data) => setClasses(data));
     }, [user?.email]);
@@ -16,7 +16,7 @@ const AddedClasses = () => {
     return (
         <div>
             <h1 className="text-2xl font-bold mb-4">
-                Total Selected: {classes.length}
+                Total Class Add: {classes.length}
             </h1>
             <table className="table text-center">
                 <thead>

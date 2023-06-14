@@ -1,11 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Provider/AuthProvider';
-import { RiLogoutBoxLine } from 'react-icons/ri'; // Example icon from React Icons
+import { RiLogoutBoxLine } from 'react-icons/ri';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const userRole = localStorage.getItem('token');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogOut = () => {
     logOut()
@@ -13,6 +14,10 @@ const Navbar = () => {
         // localStorage.clear();
       })
       .catch(error => {});
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(prevState => !prevState);
   };
 
   return (
@@ -25,7 +30,7 @@ const Navbar = () => {
                 MelodyVerse
               </Link>
             </div>
-            <div className="hidden md:block">
+            <div className="hidden md:block" >
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
                   to="/"
@@ -48,13 +53,43 @@ const Navbar = () => {
               </div>
             </div>
           </div>
+          <div className="md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-gray-600 hover:text-gray-900 px-2 py-1 rounded-md text-xl"
+            >
+              Menu
+            </button>
+          </div>
+          <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <Link
+                to="/"
+                className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Home
+              </Link>
+              <Link
+                to="/instructors"
+                className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Instructors
+              </Link>
+              <Link
+                to="/classes"
+                className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Classes
+              </Link>
+            </div>
+          </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center md:ml-6">
               {user ? (
                 <>
                   {userRole === 'admin' && (
                     <Link
-                      to="/admin-dashboard"
+                      to="/admin-dashboard/allusers"
                       className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                     >
                       Admin Dashboard
@@ -70,14 +105,14 @@ const Navbar = () => {
                   )}
                   {userRole === 'instructor' && (
                     <Link
-                      to="/instructor-dashboard"
+                      to="/instructor-dashboard/classes"
                       className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                     >
                       Instructor Dashboard
                     </Link>
                   )}
                   <img
-                    src={user.photoURL} // Add user image URL
+                    src={user.photoURL}
                     alt="User Profile"
                     className="h-8 w-8 rounded-full"
                   />

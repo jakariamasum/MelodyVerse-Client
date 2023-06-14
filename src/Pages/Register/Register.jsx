@@ -5,12 +5,13 @@ import { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import { getAuth, updateProfile } from 'firebase/auth';
+import { FaGoogle } from 'react-icons/fa';
 
 const Register = () => {
   const navigate=useNavigate()
   const auth=getAuth()
   // const {createUser,logOut}=useContext(AuthContext)
-  const {createUser, logOut } = useContext(AuthContext);
+  const {createUser, logOut,googleLogin } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -24,7 +25,7 @@ const Register = () => {
 
     createUser(data.email, data.password)
             .then(res => {
-              fetch('http://localhost:5000/students',{
+              fetch('https://music-school-server-pearl.vercel.app/students',{
                 method: 'POST', 
                 headers: {
                   'content-type':'application/json'
@@ -72,6 +73,51 @@ const Register = () => {
 
   const password = useRef({});
   password.current = watch('password', '');
+
+  const handleGoogleLogin=()=>{
+    googleLogin()
+    .then(res=>{
+      const info={
+        name: res.user.displayName, 
+        email: res.user.email, 
+        photoURL: res.user.photoURL,
+        role: 'student'
+      }
+      localStorage.setItem('token','student');
+      res.user.role='student';
+      fetch('https://music-school-server-pearl.vercel.app/students',{
+                method: 'POST', 
+                headers: {
+                  'content-type':'application/json'
+                }, 
+                body: JSON.stringify(info)
+              })
+              .then(res=>res.json())
+              .then(data=>{
+                console.log(data)
+                if(data.insertedId)
+                {
+                  navigate('/')
+                  Swal.fire({
+                    position: 'text-center',
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                }
+                fetch(`https://music-school-server-pearl.vercel.app/students?email=${res.user.email}`)
+                .then(res=>res.json())
+                .then(data=>localStorage.setItem('token',data.role))
+              })
+              
+
+
+      console.log(res.user)
+    })
+    .catch(error=>console.log(error.message))
+  }
+
 
   return (
     <div className="max-w-md mx-auto mt-8 ">
@@ -231,6 +277,17 @@ const Register = () => {
           </Link>
         </div>
       </form>
+      <p className="text-center text-gray-500">Or register with:</p>
+        <div className='text-center mb-12'>
+
+          <button onClick={handleGoogleLogin}
+            type="button"
+            className="bg-red-500  text-white py-2 px-12 mt-2 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          >
+            <FaGoogle className="mr-2" /> <p>Google</p>
+          </button>
+         
+        </div>
     </div>
   );
 };
