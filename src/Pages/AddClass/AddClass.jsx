@@ -11,6 +11,7 @@ const AddClass = () => {
     data.status='pending';
     data.email=user.email; 
     data.name=user.displayName;
+    data.feedBack='';
     console.log(data)
 
     fetch('http://localhost:5000/add-class',{

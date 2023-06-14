@@ -1,11 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import { useContext, useRef, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
+import { getAuth, updateProfile } from 'firebase/auth';
 
 const Register = () => {
+  const navigate=useNavigate()
+  const auth=getAuth()
   // const {createUser,logOut}=useContext(AuthContext)
   const {createUser, logOut } = useContext(AuthContext);
   const {
@@ -33,6 +36,7 @@ const Register = () => {
                 if(data.insertedId)
                 {
                   logOut();
+                  navigate('/login')
                   Swal.fire({
                     position: 'text-center',
                     icon: 'success',
@@ -43,19 +47,16 @@ const Register = () => {
                 }
               })
                 console.log(res.user)
-                // updateProfile(auth.currentUser, {
-                //     displayName: data.name, photoURL: data.photoURL
-                // }).then(() => {
-                //     logOut()
-                //         .then(res => {
-                //             form.reset();
-                //         })
-                //         .catch(error => console.log(error.message))
-                //         setErr('')
-                //     navigate('/login')
-                // }).catch((error) => {
-                //     console.log(error.message)
-                // });
+                 updateProfile(auth.currentUser, {
+                     displayName: data.name, photoURL: data.photoURL
+                 }).then(() => {
+                     logOut()
+                         .then(res => {
+                         })
+                         .catch(error => console.log(error.message))
+                 }).catch((error) => {
+                     console.log(error.message)
+                 });
 
             })
             .catch(error => console.log(error.message))
@@ -84,7 +85,7 @@ const Register = () => {
             type="text"
             id="name"
             {...register('name', { required: 'Name is required' })}
-            className={`border-black focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.name ? 'border-red-500' : 'border-gray-300'
+            className={`border border-black focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.name ? 'border-red-500' : 'border-gray-300'
               }`}
           />
           {errors.name && (
@@ -105,7 +106,7 @@ const Register = () => {
                 message: 'Invalid email',
               },
             })}
-            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'
+            className={`border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'
               }`}
           />
           {errors.email && (
@@ -132,7 +133,7 @@ const Register = () => {
                     'Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character',
                 },
               })}
-              className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.password ? 'border-red-500' : 'border-gray-300'
+              className={`border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -164,7 +165,7 @@ const Register = () => {
               required: 'Please confirm your password',
               validate: (value) => value === password.current || 'Passwords do not match',
             })}
-            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+            className={`border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
               }`}
           />
           {errors.confirmPassword && (
@@ -179,7 +180,7 @@ const Register = () => {
             type="text"
             id="photoURL"
             {...register('photoURL')}
-            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm"
+            className="border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm"
           />
         </div>
         <div className="mb-4">
@@ -189,7 +190,7 @@ const Register = () => {
           <select
             id="gender"
             {...register('gender')}
-            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm"
+            className="border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm"
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -205,7 +206,7 @@ const Register = () => {
             type="tel"
             id="phoneNumber"
             {...register('phoneNumber')}
-            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm"
+            className="border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm"
           />
         </div>
         <div className="mb-4">

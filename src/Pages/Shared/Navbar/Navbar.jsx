@@ -77,7 +77,7 @@ const Navbar = () => {
                     </Link>
                   )}
                   <img
-                    src={''} // Add user image URL
+                    src={user.photoURL} // Add user image URL
                     alt="User Profile"
                     className="h-8 w-8 rounded-full"
                   />

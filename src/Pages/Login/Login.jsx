@@ -1,12 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 import { FaGoogle } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
-  const {signIn}=useContext(AuthContext)
+  const navigate=useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
+  const {signIn,googleLogin}=useContext(AuthContext)
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
@@ -18,6 +24,16 @@ const Login = () => {
       .then(data=>{
         localStorage.setItem('token',data.role)
       })
+      Swal.fire({
+        title: 'Login successfull',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      })
+      navigate(from, { replace: true });
       console.log(result);
     }) 
     .catch(error=>console.log(error))
@@ -30,6 +46,40 @@ const Login = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const handleGoogleLogin=()=>{
+    googleLogin()
+    .then(res=>{
+      res.role='student';
+      fetch('http://localhost:5000/students',{
+                method: 'POST', 
+                headers: {
+                  'content-type':'application/json'
+                }, 
+                body: JSON.stringify(res)
+              })
+              .then(res=>res.json())
+              .then(data=>{
+                if(data.insertedId)
+                {
+                  navigate('/')
+                  Swal.fire({
+                    position: 'text-center',
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                }
+              })
+              
+
+
+      console.log(res.user)
+    })
+    .catch(error=>console.log(error.message))
+  }
+  
+
   return (
     <div className="max-w-md mx-auto mt-8">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
@@ -40,7 +90,7 @@ const Login = () => {
             type="email"
             id="email"
             {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' } })}
-            className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+            className={`border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
           />
           {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
         </div>
@@ -51,7 +101,7 @@ const Login = () => {
               type={passwordVisible ? 'text' : 'password'}
               id="password"
               {...register('password', { required: 'Password is required', minLength: { value: 6, message: 'Password must be at least 6 characters' } })}
-              className={`border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+              className={`border border-gray-300 focus:border-blue-500 focus:ring-blue-500 block w-full rounded-md py-2 px-4 sm:text-sm ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
               {passwordVisible ? (
@@ -77,7 +127,7 @@ const Login = () => {
         <p className="text-center text-gray-500">Or login with:</p>
         <div className='text-center'>
 
-          <button
+          <button onClick={handleGoogleLogin}
             type="button"
             className="bg-red-500  text-white py-2 px-12 mt-2 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >

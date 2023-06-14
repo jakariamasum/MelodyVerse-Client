@@ -52,11 +52,11 @@ import PrivateRoute from "./PrivateRoute";
       children:[
         {
           path: '/student-dashboard/selected',
-          element: <SelectedClass/>
+          element: <PrivateRoute><SelectedClass/></PrivateRoute>
         },
         {
           path: '/student-dashboard/:payment',
-          element: <Payment/>
+          element: <PrivateRoute><Payment/></PrivateRoute>
         }
       ]
     },
@@ -66,11 +66,11 @@ import PrivateRoute from "./PrivateRoute";
       children:[
         {
           path: '/instructor-dashboard/add-class',
-          element: <AddClass/>
+          element: <PrivateRoute><AddClass/></PrivateRoute>
         },
         {
           path: '/instructor-dashboard/classes',
-          element: <AddedClasses/>
+          element: <PrivateRoute><AddedClasses/></PrivateRoute>
         }
       ]
     },
@@ -80,11 +80,11 @@ import PrivateRoute from "./PrivateRoute";
       children: [
         {
           path: '/admin-dashboard/classes', 
-          element: <ManageClass/>
+          element: <PrivateRoute><ManageClass/></PrivateRoute>
         },
         {
           path: '/admin-dashboard/allusers',
-          element: <ManageUsers/>
+          element: <PrivateRoute><ManageUsers/></PrivateRoute>
         }
       ]
     }
