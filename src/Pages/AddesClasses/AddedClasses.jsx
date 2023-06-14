@@ -46,7 +46,7 @@ const AddedClasses = () => {
                             <td>{classItem.availableSeats}</td>
                             <td>0</td>
                             <td className="text-yellow-400">{classItem.status}</td>
-                            <td>5</td>
+                            <td>{classItem.feedBack? classItem.feedBack:''}</td>
                             <td>
                                 <button className="btn btn-warning mr-2 font-semibold border-none text-white bg-green-400 hover:bg-purple-500"><IoMdRefresh size={20} /> Update</button>
                             </td>

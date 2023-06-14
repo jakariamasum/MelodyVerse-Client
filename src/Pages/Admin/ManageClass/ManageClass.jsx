@@ -1,14 +1,17 @@
 import { useContext, useEffect, useState } from "react";
-import { IoMdRefresh } from 'react-icons/io'
 import { RxCross2 } from 'react-icons/rx'
 import { BsCheckCircle } from 'react-icons/bs'
 import { FaCommentAlt } from 'react-icons/fa'
 import { AuthContext } from "../../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import Modal from 'react-modal';
 
 const ManageClass = () => {
     const { user } = useContext(AuthContext);
     const [classes, setClasses] = useState([]);
+    const [classId, setClassId] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [feedbackContent, setFeedbackContent] = useState('');
 
     useEffect(() => {
         fetch(`http://localhost:5000/add-class`)
@@ -54,7 +57,6 @@ const ManageClass = () => {
                             );
                         }
                     })
-                // Update the user in the classes state
             })
             .catch((error) => {
                 console.log("Error updating user:", error);
@@ -72,7 +74,6 @@ const ManageClass = () => {
         })
             .then((res) => res.json())
             .then((updatedUser) => {
-                // Update the user in the classes state
                 Swal.fire({
                     title: 'Class has been denied',
                     showClass: {
@@ -92,6 +93,41 @@ const ManageClass = () => {
                 console.log("Error updating user:", error);
             });
     }
+
+    const openModal = (id) => {
+        setShowModal(true);
+        setClassId(id)
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const sendFeedback = () => {
+        console.log(feedbackContent)
+        fetch(`http://localhost:5000/add-class/${classId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ feedBack: feedbackContent }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+
+                if (data.insertedId) {
+                    console.log('Feedback sent successfully');
+                    setFeedbackContent('');
+                    closeModal();
+                }
+
+            })
+            .catch((error) => {
+                console.log('Error sending feedback:', error);
+            });
+    };
+
+
 
     return (
         <div>
@@ -130,12 +166,35 @@ const ManageClass = () => {
                                     disabled={classItem.status === "approved" || classItem.status === "deny"}
                                     className="btn btn-warning mr-2 font-semibold border-none text-white bg-green-400 hover:bg-purple-500"><BsCheckCircle size={20} /> Approve</button>
                                 <button onClick={() => handleDeny(classItem._id)} disabled={classItem.status === "approved" || classItem.status === "deny"} className="btn btn-warning mr-2 font-semibold border-none text-white bg-red-400 hover:bg-purple-500"><RxCross2 size={20} /> Deny</button>
-                                <button className="btn btn-warning mr-2 font-semibold border-none text-white bg-orange-400 hover:bg-purple-500"><FaCommentAlt size={20} /> FeedBack</button>
+                                <button onClick={() => openModal(classItem._id)} className="btn btn-warning mr-2 font-semibold border-none text-white bg-orange-400 hover:bg-purple-500"><FaCommentAlt size={20} /> FeedBack</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            <Modal isOpen={showModal} onRequestClose={closeModal}
+
+                style={{
+                    content: {
+                        width: '50%',
+                        height: '50%',
+                        margin: 'auto'
+                    }
+                }}
+
+            >
+                <h2 className="font-bold text-2xl">Send Feedback to Instructor</h2>
+                <div className="flex flex-col justify-center mx-auto w-[350px]">
+                    <textarea
+                        value={feedbackContent}
+                        onChange={(e) => setFeedbackContent(e.target.value)}
+                        placeholder="Enter your feedback"
+                        className="border my-8 p-2 border-green-300"
+                    ></textarea>
+                    <button className="btn btn-accent" onClick={sendFeedback}>Send</button>
+                </div>
+            </Modal>
         </div>
     );
 };

@@ -16,6 +16,7 @@ import ClassesPage from "../Pages/ClassPage/ClassPage";
 import AddedClasses from "../Pages/AddesClasses/AddedClasses";
 import ManageClass from "../Pages/Admin/ManageClass/ManageClass";
 import ManageUsers from "../Pages/Admin/ManageUsers/ManageUsers";
+import PrivateRoute from "./PrivateRoute";
 
   export const router = createBrowserRouter([
     {
@@ -47,7 +48,7 @@ import ManageUsers from "../Pages/Admin/ManageUsers/ManageUsers";
     },
     {
       path: '/student-dashboard',
-      element: <Dashboard/>,
+      element: <PrivateRoute><Dashboard/></PrivateRoute>,
       children:[
         {
           path: '/student-dashboard/selected',
@@ -61,7 +62,7 @@ import ManageUsers from "../Pages/Admin/ManageUsers/ManageUsers";
     },
     {
       path: '/instructor-dashboard',
-      element: <Dashboard/>,
+      element: <PrivateRoute><Dashboard/></PrivateRoute>,
       children:[
         {
           path: '/instructor-dashboard/add-class',
@@ -75,7 +76,7 @@ import ManageUsers from "../Pages/Admin/ManageUsers/ManageUsers";
     },
     {
       path: '/admin-dashboard', 
-      element: <Dashboard/>,
+      element:<PrivateRoute><Dashboard/></PrivateRoute>,
       children: [
         {
           path: '/admin-dashboard/classes', 
