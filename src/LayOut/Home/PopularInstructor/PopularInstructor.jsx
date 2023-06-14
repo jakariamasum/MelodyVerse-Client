@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const PopularInstructor = () => {
     const [instructors, setInstructors] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/instructors?sort=asc')
+        fetch('http://localhost:5000/students?instructor=instructor')
             .then(res => res.json())
             .then(data => setInstructors(data))
     }, [])
@@ -26,7 +26,7 @@ const PopularInstructor = () => {
                         </h3>
                         {instructor.numClasses && (
                             <p className="text-sm text-gray-600 text-center mb-2">
-                                Number of Classes Taken: {instructor.numClasses}
+                                Email: {instructor.email}
                             </p>
                         )}
                     </div>

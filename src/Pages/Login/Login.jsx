@@ -37,7 +37,6 @@ const Login = () => {
       console.log(result);
     }) 
     .catch(error=>console.log(error))
-    // Perform login logic here
   };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -49,16 +48,24 @@ const Login = () => {
   const handleGoogleLogin=()=>{
     googleLogin()
     .then(res=>{
-      res.role='student';
+      const info={
+        name: res.user.displayName, 
+        email: res.user.email, 
+        photoURL: res.user.photoURL,
+        role: 'student'
+      }
+      localStorage.setItem('token','student');
+      res.user.role='student';
       fetch('http://localhost:5000/students',{
                 method: 'POST', 
                 headers: {
                   'content-type':'application/json'
                 }, 
-                body: JSON.stringify(res)
+                body: JSON.stringify(info)
               })
               .then(res=>res.json())
               .then(data=>{
+                console.log(data)
                 if(data.insertedId)
                 {
                   navigate('/')
@@ -70,6 +77,9 @@ const Login = () => {
                     timer: 1500
                 });
                 }
+                fetch(`http://localhost:5000/students?email=${res.user.email}`)
+                .then(res=>res.json())
+                .then(data=>localStorage.setItem('token',data.role))
               })
               
 

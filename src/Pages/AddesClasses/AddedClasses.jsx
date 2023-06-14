@@ -38,7 +38,7 @@ const AddedClasses = () => {
                         <tr key={classItem.id}>
                             <td>{index + 1}</td>
                             <td>
-                                <img src={classItem.image} alt={classItem.name} className="mask mask-squircle w-12 h-12" />
+                                <img src={classItem.classImage} alt={classItem.className} className="mask mask-squircle w-12 h-12" />
                             </td>
                             <td>{classItem.name}</td>
                             <td>{classItem.instructor}</td>

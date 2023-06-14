@@ -56,12 +56,12 @@ const ClassesPage = () => {
             classItem.availableSeats === 0  || userRole==='admin' || userRole==='instructor'? 'bg-red-300 text-white': 'bg-white'}`}
         >
           <img
-            src={classItem.image}
-            alt={classItem.name}
+            src={classItem.classImage}
+            alt={classItem.className}
             className="w-40 h-40 object-cover rounded mb-4"
           />
-          <h3 className="text-lg font-medium mb-2">{classItem.name}</h3>
-          <p className="text-gray-600 mb-2">Instructor: {classItem.instructor}</p>
+          <h3 className="text-lg font-medium mb-2">{classItem.className}</h3>
+          <p className="text-gray-600 mb-2">Instructor: {classItem.name}</p>
           <p className="text-gray-600 mb-2">Available Seats: {classItem.availableSeats}</p>
           <p className="text-gray-600 mb-4">Price: {classItem.price}</p>
           <button onClick={()=>handleselect(classItem)}

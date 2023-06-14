@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const InstructorsPage = () => {
   const [instructors,setInstructors]=useState([]); 
   useEffect(()=>{
-    fetch('http://localhost:5000/instructors')
+    fetch('http://localhost:5000/students?instructor=instructor')
     .then(res=>res.json())
     .then(data=>setInstructors(data))
   },[])
@@ -28,16 +28,7 @@ const InstructorsPage = () => {
           <p className="text-sm text-gray-600 text-center mb-2">
             {instructor.email}
           </p>
-          {instructor.numClasses && (
-            <p className="text-sm text-gray-600 text-center mb-2">
-              Number of Classes Taken: {instructor.numClasses}
-            </p>
-          )}
-          {instructor.classes && (
-            <p className="text-sm text-gray-600 text-center mb-2">
-              Classes Taken: {instructor.classes.join(', ')}
-            </p>
-          )}
+          
           <Link
             to={`/instructors/${instructor.email}/classes`}
             className="block text-center text-blue-500 font-medium"

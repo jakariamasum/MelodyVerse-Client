@@ -16,12 +16,12 @@ const PopularClass = () => {
         {classes.map(classItem => (
           <div key={classItem._id} className="p-4 bg-white rounded shadow-md">
             <img
-              src={classItem.image}
-              alt={classItem.name}
+              src={classItem.classImage}
+              alt={classItem.className}
               className="w-full h-40 object-cover rounded mb-4"
             />
-            <h3 className="text-lg font-medium mb-2">{classItem.name}</h3>
-            <p className="text-gray-600 mb-2">Instructor: {classItem.instructor}</p>
+            <h3 className="text-lg font-medium mb-2">{classItem.className}</h3>
+            <p className="text-gray-600 mb-2">Instructor: {classItem.name}</p>
             <p className="text-gray-600 mb-2">Available Seats: {classItem.availableSeats}</p>
             <p className="text-gray-600 mb-4">Price: {classItem.price}</p>
           </div>
