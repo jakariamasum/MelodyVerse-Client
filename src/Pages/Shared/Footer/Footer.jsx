@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 py-8 px-32">
-      <div className="container mx-auto px-4">
+    <footer className="bg-gray-900 py-8 px-4 sm:px-8 md:px-16 lg:px-32">
+      <div className="container mx-auto">
         <div className="flex flex-wrap justify-between">
           <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 mb-6">
             <h3 className="text-white text-lg font-semibold mb-4">MelodyVerse</h3>
@@ -19,17 +19,17 @@ const Footer = () => {
           <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 mb-6">
             <h3 className="text-white text-lg font-semibold mb-4">Links</h3>
             <ul className="text-gray-400">
-              <li className="mb-2"><Link href="#" className="hover:text-gray-200">Home</Link></li>
-              <li className="mb-2"><Link href="#" className="hover:text-gray-200">About</Link></li>
-              <li className="mb-2"><Link href="#" className="hover:text-gray-200">Services</Link></li>
-              <li className="mb-2"><Link href="#" className="hover:text-gray-200">Contact</Link></li>
+              <li className="mb-2"><Link to="/" className="hover:text-gray-200">Home</Link></li>
+              <li className="mb-2"><Link to="/about" className="hover:text-gray-200">About</Link></li>
+              <li className="mb-2"><Link to="/services" className="hover:text-gray-200">Services</Link></li>
+              <li className="mb-2"><Link to="/contact" className="hover:text-gray-200">Contact</Link></li>
             </ul>
           </div>
         </div>
         <hr className="border-gray-800 my-8" />
         <div className="flex justify-center items-center">
           <p className="text-gray-400">© {new Date().getFullYear()} MelodyVerse. All Rights Reserved.</p>
-          <div className="flex">
+          <div className="flex ml-4">
             <Link href="#" className="text-gray-400 hover:text-gray-200 mr-4">
               <RiFacebookFill className="h-6 w-6" />
             </Link>

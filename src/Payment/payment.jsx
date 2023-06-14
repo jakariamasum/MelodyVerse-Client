@@ -1,25 +1,31 @@
 import StripeCheckout from 'react-stripe-checkout';
 
-const payment = () => {
+const Payment = () => {
+    const paymentKey= import.meta.env.SECRET_KEY;
+    console.log(paymentKey)
+  const handleToken = (token) => {
+    // You can handle the token received from Stripe here
+    console.log(token);
+    // Perform any additional actions like sending the token to your server
+    // for payment processing and order fulfillment
+  };
 
-    const paymentKey= import.meta.env.PAYMENT_KEY
-    const payNow=()=>{
-        console.log(paymentKey)
-    }
-    return (
-        <div>
-            <h1>give money 10</h1>
-            <StripeCheckout
-            stripeKey={paymentKey}
-            label='Pay Now'
-            name='Pay with Credit Card'
-            amount={10}
-            description='Your total amount 10'
-            token={payNow}
-            />
-        </div>
-        
-    );
+  return (
+    <div>
+      <StripeCheckout
+        token={handleToken}
+        stripeKey={paymentKey}
+        amount={1000} // Amount in cents (e.g., 10 USD)
+        currency="USD"
+        name="My Store"
+        description="Payment for products"
+      >
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Pay Now
+        </button>
+      </StripeCheckout>
+    </div>
+  );
 };
 
-export default payment;
+export default Payment;
