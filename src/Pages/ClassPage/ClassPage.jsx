@@ -9,13 +9,13 @@ const ClassesPage = () => {
 
     const [userRole,setUserRole]=useState('student')
     useEffect(()=>{
-        fetch(`http://localhost:5000/students?email=${user?.email}`)
+        fetch(`https://music-school-server-pearl.vercel.app/students?email=${user?.email}`)
         .then(res=>res.json())
         .then(data=>setUserRole(data.role))
     },[user?.email])
 
     useEffect(()=>{
-        fetch('http://localhost:5000/classes')
+        fetch('https://music-school-server-pearl.vercel.app/classes')
         .then(res=>res.json())
         .then(data=>setClasses(data))
     },[])
@@ -25,7 +25,7 @@ const ClassesPage = () => {
       item.email=user?.email;
       item.selectId=item._id;
       delete item._id;
-      fetch('http://localhost:5000/selected',{
+      fetch('https://music-school-server-pearl.vercel.app/selected',{
         method: 'POST', 
         headers: {
           'content-type': "application/json"

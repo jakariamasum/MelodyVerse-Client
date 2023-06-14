@@ -11,7 +11,7 @@ const Dashboard = () => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/students?email=${user?.email}`)
+        fetch(`https://music-school-server-pearl.vercel.app/students?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setUserRole(data.role));
     }, [user]);

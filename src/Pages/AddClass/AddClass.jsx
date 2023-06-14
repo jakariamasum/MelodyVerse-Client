@@ -15,7 +15,7 @@ const AddClass = () => {
     data.feedBack='';
     console.log(data)
 
-    fetch('http://localhost:5000/add-class',{
+    fetch('https://music-school-server-pearl.vercel.app/add-class',{
         method: 'POST',
         headers:{
             'content-type': 'application/json'

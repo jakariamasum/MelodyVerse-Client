@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 const PopularInstructor = () => {
     const [instructors, setInstructors] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/students?instructor=instructor')
+        fetch('https://music-school-server-pearl.vercel.app/students?instructor=instructor')
             .then(res => res.json())
             .then(data => setInstructors(data.slice(0, 6)))
     }, [])

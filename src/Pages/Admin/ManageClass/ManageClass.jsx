@@ -14,13 +14,13 @@ const ManageClass = () => {
     const [feedbackContent, setFeedbackContent] = useState('');
 
     useEffect(() => {
-        fetch(`http://localhost:5000/add-class`)
+        fetch(`https://music-school-server-pearl.vercel.app/add-class`)
             .then((res) => res.json())
             .then((data) => setClasses(data));
     }, [user?.email]);
 
     const handleApprove = (item) => {
-        fetch(`http://localhost:5000/add-class/${item._id}`, {
+        fetch(`https://music-school-server-pearl.vercel.app/add-class/${item._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const ManageClass = () => {
         })
             .then((res) => res.json())
             .then((updatedUser) => {
-                fetch('http://localhost:5000/classes', {
+                fetch('https://music-school-server-pearl.vercel.app/classes', {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'
@@ -63,7 +63,7 @@ const ManageClass = () => {
             });
     }
     const handleDeny = (id) => {
-        fetch(`http://localhost:5000/add-class/${id}`, {
+        fetch(`https://music-school-server-pearl.vercel.app/add-class/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const ManageClass = () => {
 
     const sendFeedback = () => {
         console.log(feedbackContent)
-        fetch(`http://localhost:5000/add-class/${classId}`, {
+        fetch(`https://music-school-server-pearl.vercel.app/add-class/${classId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
