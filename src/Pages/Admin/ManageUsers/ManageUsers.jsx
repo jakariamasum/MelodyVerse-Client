@@ -10,7 +10,7 @@ const ManageUsers = () => {
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {
-    fetch(`https://music-school-server-pearl.vercel.app/students`)
+    fetch(`http://localhost:5000/students`)
       .then((res) => res.json())
       .then((data) => setClasses(data));
   }, [user?.email]);
@@ -18,7 +18,7 @@ const ManageUsers = () => {
 
 
   const handleMakeAdmin = (id) => {
-    fetch(`https://music-school-server-pearl.vercel.app/students/${id}`, {
+    fetch(`http://localhost:5000/students/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const ManageUsers = () => {
 
   const handleMakeInstructor = (id) => {
 
-    fetch(`https://music-school-server-pearl.vercel.app/students/${id}`, {
+    fetch(`http://localhost:5000/students/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

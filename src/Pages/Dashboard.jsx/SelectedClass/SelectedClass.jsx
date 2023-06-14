@@ -9,7 +9,7 @@ const SelectedClass = () => {
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {
-    fetch(`https://music-school-server-pearl.vercel.app/selected?email=${user?.email}`)
+    fetch(`http://localhost:5000/selected?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => setClasses(data));
   }, [user?.email]);
@@ -25,7 +25,7 @@ const SelectedClass = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://music-school-server-pearl.vercel.app/selected/${classId}`, {
+        fetch(`http://localhost:5000/selected/${classId}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())

@@ -19,7 +19,7 @@ const Login = () => {
     console.log(data);
     signIn(data.email,data.password)
     .then(result=>{
-      fetch(`https://music-school-server-pearl.vercel.app/students?email=${data.email}`)
+      fetch(`http://localhost:5000/students?email=${data.email}`)
       .then(res=>res.json())
       .then(data=>{
         localStorage.setItem('token',data.role)
@@ -56,7 +56,7 @@ const Login = () => {
       }
       localStorage.setItem('token','student');
       res.user.role='student';
-      fetch('https://music-school-server-pearl.vercel.app/students',{
+      fetch('http://localhost:5000/students',{
                 method: 'POST', 
                 headers: {
                   'content-type':'application/json'
@@ -77,7 +77,7 @@ const Login = () => {
                     timer: 1500
                 });
                 }
-                fetch(`https://music-school-server-pearl.vercel.app/students?email=${res.user.email}`)
+                fetch(`http://localhost:5000/students?email=${res.user.email}`)
                 .then(res=>res.json())
                 .then(data=>localStorage.setItem('token',data.role))
               })

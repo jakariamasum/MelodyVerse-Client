@@ -7,7 +7,7 @@ const AddedClasses = () => {
     const [classes, setClasses] = useState([]);
 
     useEffect(() => {
-        fetch(`https://music-school-server-pearl.vercel.app/add-class?email=${user.email}`)
+        fetch(`http://localhost:5000/add-class?email=${user.email}`)
             .then((res) => res.json())
             .then((data) => setClasses(data));
     }, [user?.email]);
